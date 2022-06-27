@@ -40,7 +40,7 @@ class MyApp(QWidget):
         self.vbox.addWidget(self.label)
         self.show()
 
-    def Dial_Cahanged(self):
+    def Dial_Changed(self):
         self.label.setText(str(self.dial.value()))
         pwm.ChangeDutyCycle(float(self.dial.value()))
 
