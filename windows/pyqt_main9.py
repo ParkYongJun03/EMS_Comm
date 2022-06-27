@@ -10,7 +10,6 @@ import time
 
 BUTTON = 3
 RED = 11
-
 GPIO.setmode(GPIO.BOARD) # GOIO.BCM
 GPIO.setup(RED, GPIO.OUT) # 11핀 출력 세팅
 GPIO.setup(BUTTON, GPIO.IN)
