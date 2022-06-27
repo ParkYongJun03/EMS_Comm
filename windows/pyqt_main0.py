@@ -2,11 +2,13 @@ import sys
 import io
 import folium
 from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout, QVBoxLayout
-from PyQt5.QtWebEngineWidgets import QWebEngineView # pip install PyQtWebEngine
+from PyQt5.QtWebEngineWidgets import QWebEngineView  # pip install PyQtWebEngine
 
 """
 Folium in PyQt5
 """
+
+
 class MyApp(QWidget):
     def __init__(self):
         super().__init__()
@@ -19,9 +21,9 @@ class MyApp(QWidget):
 
         coordinate = (37.480831, 126.882919)
         m = folium.Map(
-        	tiles='Stamen Toner',
-        	zoom_start=14,
-        	location=coordinate
+            tiles='Stamen Toner',
+            zoom_start=14,
+            location=coordinate
         )
 
         # save map data to data object
@@ -40,7 +42,7 @@ if __name__ == '__main__':
             font-size: 35px;
         }
     ''')
-    
+
     myApp = MyApp()
     myApp.show()
 
