@@ -66,8 +66,4 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     wnd = MyApp()
     app.exec()
-<<<<<<< HEAD
 # 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
-=======
-    # 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
->>>>>>> 74db1c145f824e2d96b2ae1d58f4024c16296c6e
