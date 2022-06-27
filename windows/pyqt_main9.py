@@ -38,7 +38,7 @@ class MyApp(QWidget):
         self.vbox = QVBoxLayout(self)
         self.vbox.addWidget(self.label)
 
-        self.hbox = QVBoxLayout(self)
+        self.hbox = QHBoxLayout(self)
         self.hbox.addWidget(self.btnOn)
         self.hbox.addWidget(self.btnOff)
 
