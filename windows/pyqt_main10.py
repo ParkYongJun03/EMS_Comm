@@ -30,7 +30,7 @@ class MyApp(QWidget):
 
         # 다이얼
         self.dial = QDial(self)
-        self.dial.setRange(0, 50)
+        self.dial.setRange(0, 13)
 
         # 시그널
         self.dial.valueChanged.connect(self.Dial_Changed)
