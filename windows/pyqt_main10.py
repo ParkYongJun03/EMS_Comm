@@ -30,7 +30,7 @@ class MyApp(QWidget):
 
         # 다이얼
         self.dial = QDial(self)
-        self.dial.setRange(0, 50)
+        self.dial.setRange(0, 13)
 
         # 시그널
         self.dial.valueChanged.connect(self.Dial_Changed)
@@ -40,7 +40,7 @@ class MyApp(QWidget):
         self.vbox.addWidget(self.label)
         self.show()
 
-    def Dial_Cahanged(self):
+    def Dial_Changed(self):
         self.label.setText(str(self.dial.value()))
         pwm.ChangeDutyCycle(float(self.dial.value()))
 
