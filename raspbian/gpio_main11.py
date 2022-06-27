@@ -14,3 +14,4 @@ try:
         time.sleep(1.0) # 1 second delay
 except KeyboardInterrupt:
     print('End of Program')
+    # 커밋 테스트
