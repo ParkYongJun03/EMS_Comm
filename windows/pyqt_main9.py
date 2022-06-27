@@ -50,3 +50,4 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     wnd = MyApp()
     app.exec()
+    # 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
