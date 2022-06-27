@@ -66,4 +66,4 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     wnd = MyApp()
     app.exec()
-# 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
+# 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
