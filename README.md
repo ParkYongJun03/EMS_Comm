@@ -15,4 +15,7 @@ EMS 통신 리포지토리
 
 
 `sudo apt install python3-qyqt5`
+
 `sudo apt install qttools5-dev-tools`
+
+`sudo pip install Adafruit_DHT`
