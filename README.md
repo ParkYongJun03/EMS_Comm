@@ -28,10 +28,17 @@ EMS 데이터 통신 및 제어 프로그램
  - PyQt5 연습
  - Naver News 검색
  - Naver Movie 검색
-<br/>
+
+<br/>네이버 뉴스 검색 앱<br/>
 <img src="https://user-images.githubusercontent.com/83456300/176105751-20dc5cbc-8adf-4357-a34e-ecebeea26976.png" width="500">
-<br/>
+<br/>네이버 영화 검색 앱<br/>
 <img src="https://user-images.githubusercontent.com/83456300/176106419-da2895de-c82b-4fdc-a963-69ef67182454.png" width="500">
+
+
+## Day 5 ~ 7
+- EMS 통신 앱 개발
+ - MQTT
+
 
 `pip install PyQt5`
 
