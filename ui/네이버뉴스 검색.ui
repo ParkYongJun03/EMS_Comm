@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>mainWindow</class>
+ <widget class="QMainWindow" name="mainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>650</width>
+    <height>500</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>650</width>
+    <height>500</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1000</width>
+    <height>1000</height>
+   </size>
+  </property>
+  <property name="font">
+   <font>
+    <family>나눔고딕코딩</family>
+    <pointsize>11</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>네이버 뉴스 검색</string>
+  </property>
+  <widget class="QWidget" name="naverSearch">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>600</width>
+     <height>600</height>
+    </size>
+   </property>
+   <property name="sizeIncrement">
+    <size>
+     <width>1</width>
+     <height>1</height>
+    </size>
+   </property>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>0</y>
+      <width>600</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <horstretch>1</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>600</width>
+      <height>50</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>1000</width>
+      <height>1000</height>
+     </size>
+    </property>
+    <property name="sizeIncrement">
+     <size>
+      <width>1</width>
+      <height>0</height>
+     </size>
+    </property>
+    <property name="title">
+     <string>검색</string>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>44</y>
+       <width>64</width>
+       <height>15</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>검색어</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="txtSearch">
+     <property name="geometry">
+      <rect>
+       <x>101</x>
+       <y>37</y>
+       <width>411</width>
+       <height>30</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnSearch">
+     <property name="geometry">
+      <rect>
+       <x>519</x>
+       <y>33</y>
+       <width>70</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>검색</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QTableWidget" name="tblResult">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>601</width>
+      <height>411</height>
+     </rect>
+    </property>
+    <property name="sizeIncrement">
+     <size>
+      <width>10</width>
+      <height>10</height>
+     </size>
+    </property>
+    <property name="baseSize">
+     <size>
+      <width>10</width>
+      <height>10</height>
+     </size>
+    </property>
+    <property name="font">
+     <font>
+      <family>나눔고딕코딩</family>
+      <pointsize>8</pointsize>
+     </font>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
