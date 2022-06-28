@@ -57,7 +57,9 @@ EMS 데이터 통신 및 제어 프로그램
 
 `sudo apt install qttools5-dev-tools`
 
-`sudo pip install Adafruit_DHT`
+~~`sudo pip install Adafruit_DHT`~~ `sudo pip uninstall Adafruit_DHT`
+
+`sudo pip install adafruit-circuitpython-dht`
 
 [성명건 강사님 You needaWeekie](https://youneedawiki.com/app/page/1IzpIJKAo7ci1IUfguYpr8hucVc8VpY9fFoy9bWNdyR4)
 
