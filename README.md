@@ -64,4 +64,8 @@ EMS 데이터 통신 및 제어 프로그램
 [성명건 강사님 You needaWeekie](https://youneedawiki.com/app/page/1IzpIJKAo7ci1IUfguYpr8hucVc8VpY9fFoy9bWNdyR4)
 
 
-`sudo pip install libgpiod2`
+`sudo apt install libgpiod2`
+
+`sudo pip install paho-mqtt`
+
+`C:\Repository\EMS_Comm\images>pyrcc5 IoT.qrc -o IoT_rc.py`
