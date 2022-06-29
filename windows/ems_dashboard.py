@@ -7,12 +7,31 @@ from PyQt5.QtCore import *
 
 import IoT_rc
 
+import requests
+import json
+
 
 class MyApp(QMainWindow):
     def __init__(self):
         super(MyApp, self).__init__()
         self.initUI()
         self.showTime()
+        self.showWeather()
+
+    def showWeather(self):
+        url = 'https://api.openweathermap.org/data/2.5/weather?'\
+            'q=seoul&appid=042acd5172a7339f4734ff023897f710'\
+            '&lang=kr&units=metric'
+        res = requests.get(url)
+        res = json.loads(res.text)
+        weather = res['weather'][0]['main'].lower()
+        self.weatherFrame.setStyleSheet(
+            (
+                f'background-image: url(:/{weather});'
+                'border : none;'
+            )
+        )
+        print(weather)
 
     def showTime(self):
         today = QDateTime.currentDateTime()
@@ -23,6 +42,12 @@ class MyApp(QMainWindow):
         self.lblDate.setText(currDate.toString('yyyy-MM-dd'))
         self.lblDay.setText(currDay)
         self.lblTime.setText(currTime.toString('HH:mm'))
+        if today.time().hour() <= 10 & today.time().hour() >= 4:
+            self.lblGreeting.setText('Good Morning!')
+        elif today.time().hour() <= 18 & today.time().hour() > 10:
+            self.lblGreeting.setText('Good Afternoon!')
+        elif today.time().hour() <= 24:
+            self.lblGreeting.setText('Good Night!')
 
     def initUI(self):
         uic.loadUi('./ui/dashboard.ui', self)
