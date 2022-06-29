@@ -1,4 +1,5 @@
-import Adafruit_DHT as dht
+# import Adafruit_DHT as dht
+import adafruit_dht as dht
 import time
 sensor = dht.DHT11
 PIN = 2 # GPIO.BCM
