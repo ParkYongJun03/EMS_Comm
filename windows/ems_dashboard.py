@@ -5,15 +5,28 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
+import IoT_rc
+
 
 class MyApp(QMainWindow):
     def __init__(self):
         super(MyApp, self).__init__()
         self.initUI()
+        self.showTime()
+
+    def showTime(self):
+        today = QDateTime.currentDateTime()
+        currDate = today.date()
+        currTime = today.time()
+        currDay = today.toString('dddd')
+
+        self.lblDate.setText(currDate.toString('yyyy-MM-dd'))
+        self.lblDay.setText(currDay)
+        self.lblTime.setText(currTime.toString('HH:mm'))
 
     def initUI(self):
         uic.loadUi('./ui/dashboard.ui', self)
-        self.setWindowIcon(QIcon('./images/automation.png'))
+        self.setWindowIcon(QIcon('./images/iot_64.png'))
 
         # 시그널 연결
 
