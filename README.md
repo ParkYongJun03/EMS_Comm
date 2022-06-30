@@ -68,4 +68,10 @@ EMS 데이터 통신 및 제어 프로그램
 
 `sudo pip install paho-mqtt`
 
-`C:\Repository\EMS_Comm\images>pyrcc5 IoT.qrc -o IoT_rc.py`
+`C:\Repository\EMS_Comm\images`
+
+`pyrcc5 IoT.qrc -o IoT_rc.py`
+
+`pip install paho-mqtt`
+
+`pip install PyMySQL`
