@@ -42,9 +42,9 @@ class MyApp(QMainWindow):
         self.lblDate.setText(currDate.toString('yyyy-MM-dd'))
         self.lblDay.setText(currDay)
         self.lblTime.setText(currTime.toString('HH:mm'))
-        if today.time().hour() <= 10 & today.time().hour() >= 4:
+        if today.time().hour() <= 12 and today.time().hour() >= 4:
             self.lblGreeting.setText('Good Morning!')
-        elif today.time().hour() <= 18 & today.time().hour() > 10:
+        elif today.time().hour() <= 18 and today.time().hour() > 12:
             self.lblGreeting.setText('Good Afternoon!')
         elif today.time().hour() <= 24:
             self.lblGreeting.setText('Good Night!')
@@ -62,5 +62,4 @@ class MyApp(QMainWindow):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     win = MyApp()
-
     app.exec_()
