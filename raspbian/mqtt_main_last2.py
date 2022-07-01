@@ -1,57 +1,54 @@
 # MQTT Pub/Sub App
 from threading import Thread, Timer
-import time
 import paho.mqtt.client as mqtt
-import json
+import time
 import datetime as dt
-
-import adafruit_dht as dht  # DHT센서용
+import json
+import adafruit_dht as dht
 import board
-
-SENSOR = dht.DHT11(board.D2)  # DHT11
-
-# DHT 센서값 Publish
+# DHT 센서 값 Publish
+SENSOR = dht.DHT11(board.D2)
 
 
 class publisher(Thread):
     def __init__(self):
         Thread.__init__(self)
-        self.host = '192.168.0.21'  # 강사서버
+        self.host = '192.168.0.21'  # 내서버
         self.port = 1883
         print('publisher 스레드 시작')
-        self.client = mqtt.Client(client_id='EMS01')
+        self.client = mqtt.Client(client_id='EMS105')
 
     def run(self):
         self.client.connect(self.host, self.port)
-        self.publish_data_auto()
+        self.publishDataAuto()
 
-    def publish_data_auto(self):
+    def publishDataAuto(self):
+        t = SENSOR.temperature
+        h = SENSOR.humidity
         try:
-            t = SENSOR.temperature
-            h = SENSOR.humidity
             curr = dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            origin_data = {'DEV_ID': 'EMS01', 'CURR_DT': curr,
-                           'TEMP': t, 'HUMID': h}
-            pub_data = json.dumps(origin_data)
-            self.client.publish(topic='ems/rasp/data/',
-                                payload=pub_data)
-            print(f'{curr} -> MQTT Published')
+            originData = {'DEV_ID': 'EMS05', 'CURR_DT': curr,
+                          'TEMP': t, 'HUMID': h}
+            pubData = json.dumps(originData)
+
+            self.client.publish(topic='ems/rasp/control/', payload=pubData)
+            print(f'{curr} -> MQTT published')
+            Timer(2.0, self.publishDataAuto).start()
+
         except RuntimeError as e:
             print(f'ERROR > {e.args[0]}')
-
-        Timer(2.0, self.publish_data_auto).start()
 
 
 class subscriber(Thread):
     def __init__(self):
         Thread.__init__(self)
-        self.host = '192.168.0.21'  # 강사서버
+        self.host = '192.168.0.21'  # 내서버
         self.port = 1883
         print('subscriber 스레드 시작')
-        self.client = mqtt.Client(client_id='EMS91')
+        self.client = mqtt.Client(client_id='EMS005')
 
     def onConnect(self, mqttc, obj, flags, rc):
-        print(f'sub:connected with rc > {rc}')
+        print(f'sub : connected with rc > {rc}')
 
     def onMessage(self, mqttc, obj, msg):
         rcv_msg = str(msg.payload.decode('utf-8'))
@@ -68,6 +65,6 @@ class subscriber(Thread):
 
 if __name__ == '__main__':
     thPub = publisher()
-    thSub = subscriber()
     thPub.start()
+    thSub = subscriber()
     thSub.start()
