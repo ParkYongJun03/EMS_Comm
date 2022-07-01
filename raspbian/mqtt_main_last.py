@@ -16,16 +16,16 @@ class publisher(Thread):
         self.host = '192.168.0.21'  # 내서버
         self.port = 1883
         print('publisher 스레드 시작')
-        self.client = mqtt.Client(client_id='EMS105')
+        self.client = mqtt.Client(client_id='EMS05')
 
     def run(self):
         self.client.connect(self.host, self.port)
         self.publishDataAuto()
 
     def publishDataAuto(self):
-        t = SENSOR.temperature
-        h = SENSOR.humidity
         try:
+            t = SENSOR.temperature
+            h = SENSOR.humidity
             curr = dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             originData = {'DEV_ID': 'EMS05', 'CURR_DT': curr,
                           'TEMP': t, 'HUMID': h}
@@ -45,7 +45,7 @@ class subscriber(Thread):
         self.host = '192.168.0.21'  # 내서버
         self.port = 1883
         print('subscriber 스레드 시작')
-        self.client = mqtt.Client(client_id='EMS005')
+        self.client = mqtt.Client(client_id='EMS05')
 
     def onConnect(self, mqttc, obj, flags, rc):
         print(f'sub : connected with rc > {rc}')
