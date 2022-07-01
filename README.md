@@ -37,8 +37,20 @@ EMS 데이터 통신 및 제어 프로그램
 
 ## Day 5 ~ 7
 - EMS 통신 앱 개발
- - MQTT
+ - MQTT publisher / Subscriber
+ - Thread 처리
+ - PyQt Widget 화면 구성
+ - 라즈베리파이, 서버 MQTT 통신
+ - 라즈베리파이 IoT 핸들링
+ 
+라즈베리파이 화면 
 
+<img src="https://raw.githubusercontent.com/yongjunpark03/EMS_Comm/main/images/dashboard.png" width="500">
+
+
+대시보드 실행화면
+
+<img src="https://raw.githubusercontent.com/yongjunpark03/EMS_Comm/main/images/raspberrypi.png" width="500">
 
 `pip install PyQt5`
 
@@ -75,3 +87,7 @@ EMS 데이터 통신 및 제어 프로그램
 `pip install paho-mqtt`
 
 `pip install PyMySQL`
+
+`pip install pyqtgraph`
+
+`pip install pyqtchart`
