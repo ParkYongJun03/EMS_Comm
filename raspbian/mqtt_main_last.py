@@ -7,10 +7,14 @@ import datetime as dt
 
 import adafruit_dht as dht  # DHT센서용
 import board
-
-SENSOR = dht.DHT11(board.D2)  # DHT11
-
+import RPi.GPIO as GPIO
+SENSOR = dht.DHT11(board.D2)  # DHT11\
 # DHT 센서값 Publish
+RED = 17
+BLUE = 27
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(RED, GPIO.OUT)
+GPIO.setup(BLUE, GPIO.OUT)
 
 
 class publisher(Thread):
@@ -56,9 +60,20 @@ class subscriber(Thread):
     def onMessage(self, mqttc, obj, msg):
         rcv_msg = str(msg.payload.decode('utf-8'))
         print(f'{msg.topic} / {rcv_msg}')
+
+        data = json.loads(rcv_msg)
+        print(data['TYPE'])
+        print(data['STAT'])
+        type=data['TYPE']
+        stat=data['STAT']
+        if type == 'AIRCON' and stat == 'ON':
+            GPIO.output(RED, GPIO.HIGH)
+        elif type == 'AIRCON' and stat == 'OFF':
+            GPIO.output(RED, GPIO.LOW)
         time.sleep(1.0)
 
     def run(self):
+        GPIO.output(RED, GPIO.HIGH)
         self.client.on_connect = self.onConnect
         self.client.on_message = self.onMessage
         self.client.connect(self.host, self.port)
@@ -67,7 +82,12 @@ class subscriber(Thread):
 
 
 if __name__ == '__main__':
-    thPub = publisher()
-    thSub = subscriber()
-    thPub.start()
-    thSub.start()
+    try:
+        thPub = publisher()
+        thSub = subscriber()
+        thPub.start()
+        thSub.start()
+    except KeyboardInterrupt:
+        GPIO.output(RED, GPIO.LOW)
+        GPIO.output(BLUE, GPIO.LOW)
+        GPIO.cleanup()
