@@ -10,33 +10,36 @@ import board
 SENSOR = dht.DHT11(board.D2)
 
 
+
+
+
 class publisher(Thread):
     def __init__(self):
         Thread.__init__(self)
         self.host = '192.168.0.21'  # 내서버
         self.port = 1883
         print('publisher 스레드 시작')
-        self.client = mqtt.Client(client_id='EMS105')
+        self.client = mqtt.Client(client_id='EMS05P')
 
     def run(self):
         self.client.connect(self.host, self.port)
         self.publishDataAuto()
 
     def publishDataAuto(self):
-        t = SENSOR.temperature
-        h = SENSOR.humidity
         try:
+            t = SENSOR.temperature
+            h = SENSOR.humidity
             curr = dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            originData = {'DEV_ID': 'EMS05', 'CURR_DT': curr,
+            originData = {'DEV_ID': 'EMS05P', 'CURR_DT': curr,
                           'TEMP': t, 'HUMID': h}
             pubData = json.dumps(originData)
+            self.client.publish(topic='ems/rasp/data/', payload=pubData)
 
-            self.client.publish(topic='ems/rasp/control/', payload=pubData)
             print(f'{curr} -> MQTT published')
-            Timer(2.0, self.publishDataAuto).start()
 
         except RuntimeError as e:
             print(f'ERROR > {e.args[0]}')
+        Timer(2.0, self.publishDataAuto).start()
 
 
 class subscriber(Thread):
@@ -45,7 +48,7 @@ class subscriber(Thread):
         self.host = '192.168.0.21'  # 내서버
         self.port = 1883
         print('subscriber 스레드 시작')
-        self.client = mqtt.Client(client_id='EMS005')
+        self.client = mqtt.Client(client_id='EMS05S')
 
     def onConnect(self, mqttc, obj, flags, rc):
         print(f'sub : connected with rc > {rc}')
