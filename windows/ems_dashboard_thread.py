@@ -14,6 +14,11 @@ import pymysql
 import datetime as dt
 from PyQt5.QtChart import QLineSeries, QChart, QDateTimeAxis, QValueAxis
 
+import pyqtgraph as pg
+from pyqtgraph import PlotWidget
+from PyQt5.QtChart import *
+from collections import deque
+
 broker_url = '127.0.0.1'  # 로컬에 MQTT Broker가 같이 설치되어 있으므로
 
 
@@ -71,40 +76,48 @@ class MyApp(QMainWindow):
         self.showWeather()
         self.initThread()
         self.initChart()
+    # 엄청 복잡합니다. 각오가 필요합니다 ^^
 
     def initChart(self):
-        # self. viewLimit = 128  # chart에 그릴 갯수를 제한함
-        self.tempData = self.humidData = QLineSeries()
-        self.iotChart = QChart()
+        self.btnTemp.clicked.connect(self.btnTempShowClicked)
+        self.btnHumid.clicked.connect(self.btnHumidShowClicked)
 
-        # axisX = QDateTimeAxis()
-        # axisX.setFormat('HH:mm:ss')
-        # axisX.setTickCount(5)
-        # dt = QDateTime.currentDateTime()
-        # axisX.setRange(dt, dt.addSecs(self.viewLimit))
+        self.traces = dict()
+        self.timestamp = 0
+        self.timeaxis = []  # 시간축(x)
+        self.tempaxis = []  # 온도리스트
+        self.humidaxis = []  # 습도
+        self.graph_lim = 15  # 그래프 초기화
+        self.deque_timestamp = deque([], maxlen=self.graph_lim+20)
+        self.deque_temp = deque([], maxlen=self.graph_lim+20)
+        self.deque_humid = deque([], maxlen=self.graph_lim+20)
 
-        # axisY = QValueAxis()
+        self.graphwidget1 = PlotWidget(title="Temperature")
+        x1_axis = self.graphwidget1.getAxis('bottom')
+        x1_axis.setLabel(text=' ')
+        y1_axis = self.graphwidget1.getAxis('left')
+        y1_axis.setLabel(text='Temp')
 
-        # self.iotChart.addAxis(axisX, Qt.AlignBottom)
-        # self.iotChart.addAxis(axisY, Qt.AlignLeft)
-        # self.tempData.attachAxis(axisX)
-        # self.humidData.attachAxis(axisX)
-        self.iotChart.addSeries(self.tempData)
-        self.iotChart.addSeries(self.humidData)
-        self.iotChart.layout().setContentsMargins(5, 5, 5, 5)
+        self.graphwidget2 = PlotWidget(title="Humidity")
+        x2_axis = self.graphwidget2.getAxis('bottom')
+        x2_axis.setLabel(text=' ')
+        y2_axis = self.graphwidget2.getAxis('left')
+        y2_axis.setLabel(text='Humid')
 
-        self.dataView.setChart(self.iotChart)
-        self.dataView.setRenderHints(QPainter.Antialiasing)
+        self.dataView.addWidget(self.graphwidget1, 0, 0, 0, 3)
+        self.dataView.addWidget(self.graphwidget2, 0, 0, 0, 3)
+        self.graphwidget1.show()
+        self.graphwidget2.hide()
 
-        # self.iotData = QLineSeries()
-        # self.iotData.append(0, 10)
-        # self.iotData.append(1, 20)
-        # self.iotData.append(2, 15)
-        # self.iotData.append(3, 22)
+    def btnTempShowClicked(self):
+        self.graphwidget1.show()
+        self.graphwidget2.hide()
+        isTempShow = True
 
-        # self.iotChart = QChart()
-        # self.iotChart.addSeries(self.iotData)
-        # self.dataView.setChart(self.iotChart)
+    def btnHumidShowClicked(self):
+        self.graphwidget1.hide()
+        self.graphwidget2.show()
+        isTempShow = False
 
     def initThread(self):
         self.myThread = Worker(self)
@@ -179,11 +192,40 @@ class MyApp(QMainWindow):
         self.updateChart(curr_dt, temp, humid)
 
     def updateChart(self, curr_dt, temp, humid):
-        pass
-        # self.tempData.append(self.idx, temp)
-        # self.humidData.append(self.idx, humid)
+        self.timestamp += 1
 
-        # self.iotChart.
+        self.deque_timestamp.append(self.timestamp)
+        self.deque_temp.append(temp)
+        self.deque_humid.append(humid)
+
+        timeaxis_list = list(self.deque_timestamp)
+
+        if self.isTempShow == True:
+            temp_list = list(self.deque_temp)
+
+            if self.timestamp > self.graph_lim:
+                self.graphwidget1.setRange(xRange=[self.timestamp-self.graph_lim+1, self.timestamp], yRange=[
+                    min(temp_list[-self.graph_lim:]), max(temp_list[-self.graph_lim:])])
+            self.set_plotdata(name="temp", data_x=timeaxis_list,
+                              data_y=temp_list)
+        else:
+            humid_list = list(self.deque_humid)
+
+            if self.timestamp > self.graph_lim:
+                self.graphwidget2.setRange(xRange=[self.timestamp-self.graph_lim+1, self.timestamp], yRange=[
+                    min(humid_list[-self.graph_lim:]), max(humid_list[-self.graph_lim:])])
+            self.set_plotdata(name="humid", data_x=timeaxis_list,
+                              data_y=humid_list)
+        print('Chart updated!!')
+
+    def set_plotdata(self, name, data_x, data_y):
+        # print('set_data')
+        if name in self.traces:
+            self.traces[name].setData(data_x, data_y)
+        else:
+            if name == "temp":
+                self.traces[name] = self.graphwidget1.getPlotItem().plot(
+                    pen=pg.mkPen((85, 170, 255), width=3))
 
     @pyqtSlot(str)
     def updateStatus(self, stat):
